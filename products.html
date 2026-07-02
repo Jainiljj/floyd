@@ -65,7 +65,7 @@
                 <div class="products-grid" id="catalog-products-grid">
                     
                     <!-- Product 1 -->
-                    <div class="product-card" data-category="Knee Support">
+                    <div class="product-card" data-category="Knee Support" data-product-id="knee-cap">
                         <div class="product-img-wrapper">
                             <img src="assets/knee_support.png" alt="FLOYD 2D Knitted Knee Cap">
                         </div>
@@ -77,7 +77,7 @@
                     </div>
 
                     <!-- Product 2 -->
-                    <div class="product-card" data-category="Back Support">
+                    <div class="product-card" data-category="Back Support" data-product-id="ls-belt">
                         <div class="product-img-wrapper">
                             <img src="assets/back_support_ls.png" alt="FLOYD Lumbar Sacral (LS) Belt">
                         </div>
@@ -89,7 +89,7 @@
                     </div>
 
                     <!-- Product 3 -->
-                    <div class="product-card" data-category="Abdominal Support">
+                    <div class="product-card" data-category="Abdominal Support" data-product-id="abdominal-belt">
                         <div class="product-img-wrapper">
                             <img src="assets/abdominal_support.png" alt="FLOYD Abdominal Support Belt">
                         </div>
@@ -101,7 +101,7 @@
                     </div>
 
                     <!-- Product 4 -->
-                    <div class="product-card" data-category="Back Support">
+                    <div class="product-card" data-category="Back Support" data-product-id="contour-lumbar">
                         <div class="product-img-wrapper">
                             <img src="assets/contour_lumbar.png" alt="FLOYD Contour Lumbar Belt">
                         </div>
@@ -163,7 +163,6 @@
                 <ul class="footer-links">
                     <li><a href="about.html">About FLOYD</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="contact.html">Inquiry Form</a></li>
                 </ul>
             </div>
             
@@ -200,52 +199,7 @@
         </div>
     </footer>
 
-    <!-- Inquiry Modal -->
-    <div class="modal" id="inquiry-modal">
-        <div class="modal-backdrop"></div>
-        <div class="modal-content">
-            <button class="modal-close" id="modal-close" aria-label="Close Modal">&times;</button>
-            <h2 class="modal-title">Product Inquiry</h2>
-            <p class="modal-subtitle">Submit details below and click to send inquiry instantly over WhatsApp.</p>
-            
-            <form id="inquiry-form">
-                <div class="form-group">
-                    <label class="form-label" for="inquiry-name">Your Name *</label>
-                    <input type="text" id="inquiry-name" class="form-input" placeholder="Enter your full name" required>
-                    <div class="form-error"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="inquiry-phone">WhatsApp Number *</label>
-                    <input type="tel" id="inquiry-phone" class="form-input" placeholder="e.g. +91 9876543210" required>
-                    <div class="form-error"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="inquiry-email">Email Address (Optional)</label>
-                    <input type="email" id="inquiry-email" class="form-input" placeholder="name@example.com">
-                    <div class="form-error"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="inquiry-product">Select Product</label>
-                    <select id="inquiry-product" class="form-input">
-                        <option value="FLOYD 2D Knitted Knee Cap">FLOYD 2D Knitted Knee Cap</option>
-                        <option value="FLOYD Lumbar Sacral (LS) Belt">FLOYD Lumbar Sacral (LS) Belt</option>
-                        <option value="FLOYD Abdominal Support Belt">FLOYD Abdominal Support Belt</option>
-                        <option value="FLOYD Contour Lumbar Belt">FLOYD Contour Lumbar Belt</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="inquiry-message">Your Message / Requirements</label>
-                    <textarea id="inquiry-message" class="form-input" placeholder="Ask about sizes, bulk orders, shipping details, etc."></textarea>
-                </div>
-                
-                <button type="submit" class="btn btn-primary" style="width: 100%;" id="submit-inquiry">Send via WhatsApp</button>
-            </form>
-        </div>
-    </div>
+
 
     <!-- WhatsApp Floating Widget -->
     <div class="whatsapp-widget">
@@ -294,5 +248,131 @@
             }
         });
     </script>
+
+    <!-- Premium Product Detail Overlay -->
+    <div class="product-detail-overlay" id="product-detail-overlay">
+        <div class="detail-header">
+            <div class="container detail-header-content">
+                <button class="back-btn" id="back-to-catalog">← Back to Catalog</button>
+                <div class="detail-logo">
+                    <img src="assets/logo.jpg" alt="FLOYD Logo">
+                </div>
+            </div>
+        </div>
+        
+        <div class="container detail-content-body">
+            <!-- Main Grid: Left Image (40%) + Right Info (60%) -->
+            <div class="detail-main-grid">
+                
+                <!-- Left Section -->
+                <div class="detail-left-section">
+                    <div class="thumbnail-gallery" id="thumb-gallery">
+                        <!-- Dynamically populated thumbs -->
+                    </div>
+                    <div class="main-image-container">
+                        <img src="" alt="" id="detail-main-img">
+                    </div>
+                </div>
+                
+                <!-- Right Section -->
+                <div class="detail-right-section">
+                    <div class="detail-meta-category" id="detail-category">ORTHOPEDIC SUPPORT</div>
+                    <h2 class="detail-product-title" id="detail-title">FLOYD 2D Knitted Knee Cap</h2>
+                    
+                    <div class="detail-rating-row">
+                        <span class="detail-stars">★ ★ ★ ★ ★</span>
+                        <span class="detail-rating-val" id="detail-rating-text">4.8 stars (230 reviews)</span>
+                    </div>
+                    
+                    <div class="detail-size-selector">
+                        <span class="selector-label">Select Size</span>
+                        <div class="size-options" id="detail-sizes">
+                            <!-- S / M / L / XL buttons -->
+                        </div>
+                    </div>
+                    
+                    <div class="detail-cta-row">
+                        <button class="btn btn-primary" id="detail-inquire-btn" style="width: 100%;">Inquire Now</button>
+                    </div>
+                    
+                    <div class="detail-features-section">
+                        <h3 class="detail-section-title">Key Features</h3>
+                        <ul class="detail-features-list" id="detail-features">
+                            <!-- Dynamic features list -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Details Sections -->
+            <div class="detail-bottom-section">
+                <!-- Description -->
+                <div class="detail-desc-box">
+                    <h3 class="detail-section-title">Product Description</h3>
+                    <p id="detail-description">Product description text...</p>
+                </div>
+                
+                <!-- Specifications -->
+                <div class="detail-specs-box">
+                    <h3 class="detail-section-title">Specifications</h3>
+                    <div class="specs-grid" id="detail-specs">
+                        <!-- Dynamic specification rows -->
+                    </div>
+                </div>
+                
+                <!-- FAQs Accordion -->
+                <div class="detail-faq-box">
+                    <h3 class="detail-section-title">Frequently Asked Questions</h3>
+                    <div class="faq-accordion" id="detail-faqs">
+                        <!-- Dynamic FAQs -->
+                    </div>
+                </div>
+                
+                <!-- Customer Reviews Summary & List -->
+                <div class="detail-reviews-box">
+                    <h3 class="detail-section-title">Customer Reviews</h3>
+                    <div class="reviews-summary-grid">
+                        <div class="reviews-score-card">
+                            <div class="score-num" id="reviews-avg-score">4.8</div>
+                            <div class="score-stars">★ ★ ★ ★ ★</div>
+                            <div class="score-count" id="reviews-total-count">230 reviews</div>
+                        </div>
+                        <div class="reviews-progress-bars">
+                            <div class="progress-row">
+                                <span>5 star</span>
+                                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 82%;"></div></div>
+                                <span>82%</span>
+                            </div>
+                            <div class="progress-row">
+                                <span>4 star</span>
+                                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 12%;"></div></div>
+                                <span>12%</span>
+                            </div>
+                            <div class="progress-row">
+                                <span>3 star</span>
+                                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 4%;"></div></div>
+                                <span>4%</span>
+                            </div>
+                            <div class="progress-row">
+                                <span>2 star</span>
+                                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 1%;"></div></div>
+                                <span>1%</span>
+                            </div>
+                            <div class="progress-row">
+                                <span>1 star</span>
+                                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 1%;"></div></div>
+                                <span>1%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="reviews-list" id="detail-reviews-list">
+                        <!-- Dynamic review list items -->
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
 </body>
 </html>

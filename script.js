@@ -151,201 +151,322 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 5. Inquiry Modal Controller
-    const modal = document.getElementById('inquiry-modal');
-    const modalClose = document.getElementById('modal-close');
-    const productSelect = document.getElementById('inquiry-product');
+    // ==========================================================================
+    // 6. Dynamic Product Detail Overlay Page (Apple + Amazon Style)
+    // ==========================================================================
     
-    // Open modal on "Inquire Now" button clicks
-    document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('btn-inquire')) {
-            const productName = e.target.getAttribute('data-product-name');
-            
-            if (productSelect && productName) {
-                // Set the dropdown to select the product
-                productSelect.value = productName;
-            }
-            
-            if (modal) {
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Lock background scroll
-            }
+    const PRODUCTS_DATA = {
+        "knee-cap": {
+            id: "knee-cap",
+            name: "FLOYD 2D Knitted Knee Cap",
+            category: "Knee Support",
+            rating: 4.8,
+            reviewsCount: 230,
+            mainImage: "assets/knee_support.png",
+            description: "FLOYD 2D Knitted Knee Cap is designed to provide superior knee compression, support, and comfort during daily activities, sports, and post-injury recovery. Its breathable knitted structure ensures long-lasting comfort.",
+            features: [
+                "Breathable knitted fabric for all-day comfort",
+                "4-way compression support to stabilize joints",
+                "Anti-slip silicone grip to prevent sliding",
+                "Patella cushioning support for kneecap pressure relief",
+                "Suitable for sports, heavy workouts & recovery"
+            ],
+            sizes: ["S", "M", "L", "XL"],
+            specs: {
+                "Material": "Nylon + Spandex + Silicone",
+                "Compression Level": "Medium to High",
+                "Color": "Grey / Clinical Blue",
+                "Usage": "Knee Joint Support & Stabilization",
+                "Washable": "Yes (Hand wash recommended)"
+            },
+            faqs: [
+                { q: "How do I choose the correct size?", a: "Measure the circumference of your thigh 5 inches above your kneecap and refer to our size selector guide." },
+                { q: "Can I wear this knee cap while sleeping?", a: "It is generally not recommended to wear high-compression supports while sleeping unless advised by a clinician." },
+                { q: "Is the material breathable for hot weather?", a: "Yes, the 2D knitting uses highly breathable nylon spandex fibers that vent sweat instantly." }
+            ]
+        },
+        "ls-belt": {
+            id: "ls-belt",
+            name: "FLOYD Lumbar Sacral (LS) Belt",
+            category: "Back Support",
+            rating: 4.9,
+            reviewsCount: 312,
+            mainImage: "assets/back_support_ls.png",
+            description: "FLOYD Lumbar Sacral (LS) Belt is clinically engineered to support the lower spine, relieve acute back pain, and correct posture. Equipped with semi-rigid metal splints for optimal reinforcement.",
+            features: [
+                "Semi-rigid back splints for sturdy spine support",
+                "Double-pull elastic mechanism for customizable compression",
+                "Highly ventilated mesh fabric prevents heat accumulation",
+                "Ergonomically contoured shape fits perfectly under clothes",
+                "Relieves lumbar strain, sciatica, and spinal fatigue"
+            ],
+            sizes: ["S", "M", "L", "XL"],
+            specs: {
+                "Material": "Polyester + Neoprene + Steel Splints",
+                "Compression Level": "High Reinforcement",
+                "Color": "Dark Clinical Navy",
+                "Usage": "Lower Back Support & Pain Relief",
+                "Washable": "Hand wash only (remove splints)"
+            },
+            faqs: [
+                { q: "How long should I wear the LS belt daily?", a: "For recovery, 2-4 hours during active movement is recommended. Consult your orthopedist for specific duration guidelines." },
+                { q: "Can this belt be worn under a shirt?", a: "Yes, the low-profile contoured design sits flat against the lower back and is virtually invisible under regular clothing." }
+            ]
+        },
+        "abdominal-belt": {
+            id: "abdominal-belt",
+            name: "FLOYD Abdominal Support Belt",
+            category: "Abdominal Support",
+            rating: 4.7,
+            reviewsCount: 185,
+            mainImage: "assets/abdominal_support.png",
+            description: "FLOYD Abdominal Support Belt provides compression to the abdomen and waist, aiding post-operative recovery, supporting incisions, and restoring abdominal wall tone.",
+            features: [
+                "Broad width design covers the entire abdominal region",
+                "Optimal compression speeds up healing of surgical incisions",
+                "Premium breathable elastic avoids skin irritation or rashes",
+                "Velcro closures ensure simple adjustment and secure fit",
+                "Excellent for post-pregnancy abdominal binding and support"
+            ],
+            sizes: ["M", "L", "XL", "XXL"],
+            specs: {
+                "Material": "Cotton-Elastic Blend + Velcro",
+                "Compression Level": "Medium to High Elasticity",
+                "Color": "Soft Grey / Blue Accents",
+                "Usage": "Post-Operative & Post-Pregnancy Binding",
+                "Washable": "Yes (Mild detergent)"
+            },
+            faqs: [
+                { q: "Can I use this for postpartum support?", a: "Yes, this belt is ideal for restoring muscle tone and supporting the lower abdomen post-delivery." },
+                { q: "Will the belt roll down during movement?", a: "No, the internal flexible stays prevent the belt from rolling down or folding over." }
+            ]
+        },
+        "contour-lumbar": {
+            id: "contour-lumbar",
+            name: "FLOYD Contour Lumbar Belt",
+            category: "Back Support",
+            rating: 4.8,
+            reviewsCount: 198,
+            mainImage: "assets/contour_lumbar.png",
+            description: "FLOYD Contour Lumbar Belt is an advanced orthopedic brace designed with a dynamic contour shape to provide targeted comfort and structural compression to the lower back and lumbar vertebrae.",
+            features: [
+                "Contoured frame matches the natural curve of the spine",
+                "Deep pelvic cut avoids pinching at the groin or thighs",
+                "Dynamic lumbar pad offers localized pressure to sore muscles",
+                "Industrial-strength velcro closures do not slip under load",
+                "Ideal for weightlifters, warehouse workers, and drivers"
+            ],
+            sizes: ["S", "M", "L", "XL"],
+            specs: {
+                "Material": "Nylon Mesh + EVA Foam + Lumbar Pad",
+                "Compression Level": "High (Contoured Fit)",
+                "Color": "Clinical Navy / Slate Grey",
+                "Usage": "Heavy Work & Posture Correction",
+                "Washable": "Hand wash only"
+            },
+            faqs: [
+                { q: "What is the difference between this and the LS belt?", a: "The Contour Lumbar Belt features a special curved cut and dynamic EVA foam lumbar pad, making it better suited for active movements, work, and heavy lifting." }
+            ]
         }
-    });
+    };
 
-    if (modalClose && modal) {
-        modalClose.addEventListener('click', () => {
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
-        
-        // Click outside content to close
-        const backdrop = modal.querySelector('.modal-backdrop');
-        if (backdrop) {
-            backdrop.addEventListener('click', () => {
-                modal.classList.remove('active');
-                document.body.style.overflow = 'auto';
+    const detailOverlay = document.getElementById('product-detail-overlay');
+    if (detailOverlay) {
+        const backBtn = document.getElementById('back-to-catalog');
+        const detailMainImg = document.getElementById('detail-main-img');
+        const detailCategory = document.getElementById('detail-category');
+        const detailTitle = document.getElementById('detail-title');
+        const detailRatingText = document.getElementById('detail-rating-text');
+        const detailSizes = document.getElementById('detail-sizes');
+        const detailInquireBtn = document.getElementById('detail-inquire-btn');
+        const detailFeatures = document.getElementById('detail-features');
+        const detailDescription = document.getElementById('detail-description');
+        const detailSpecs = document.getElementById('detail-specs');
+        const detailFaqs = document.getElementById('detail-faqs');
+        const reviewsAvgScore = document.getElementById('reviews-avg-score');
+        const reviewsTotalCount = document.getElementById('reviews-total-count');
+        const detailReviewsList = document.getElementById('detail-reviews-list');
+        const thumbGallery = document.getElementById('thumb-gallery');
+
+        // Static rich mock reviews
+        const mockReviews = [
+            { user: "Rohan S.", date: "15 June 2026", rating: 5, text: "Excellent fit and support. Helps a lot with joint stiffness during workouts. The silicon grip keeps it firmly in place." },
+            { user: "Dr. Anjali M. (Orthopedist)", date: "02 May 2026", rating: 5, text: "I regularly recommend Floyd supports to my patients. The fabric density provides uniform pressure and stabilizes the joint without restricting mobility." },
+            { user: "Vikram K.", date: "24 April 2026", rating: 4, text: "Very supportive. Helps relieve lower back strain while sitting for long hours at the office. High-quality Velcro holds firmly." }
+        ];
+
+        const showProductDetail = (productId, updateHash = true) => {
+            const data = PRODUCTS_DATA[productId];
+            if (!data) return;
+
+            // Load texts
+            detailCategory.textContent = data.category;
+            detailTitle.textContent = data.name;
+            detailRatingText.textContent = `${data.rating} stars (${data.reviewsCount} reviews)`;
+            reviewsAvgScore.textContent = data.rating;
+            reviewsTotalCount.textContent = `${data.reviewsCount} reviews`;
+            detailDescription.textContent = data.description;
+            detailMainImg.src = data.mainImage;
+            detailMainImg.alt = data.name;
+
+            // Render features list
+            detailFeatures.innerHTML = '';
+            data.features.forEach(feat => {
+                const li = document.createElement('li');
+                li.textContent = feat;
+                detailFeatures.appendChild(li);
             });
-        }
-    }
 
-    // 6. Form validation and WhatsApp redirection logic
-    const inquiryForm = document.getElementById('inquiry-form');
-    if (inquiryForm) {
-        inquiryForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const name = document.getElementById('inquiry-name').value.trim();
-            const phone = document.getElementById('inquiry-phone').value.trim();
-            const email = document.getElementById('inquiry-email').value.trim();
-            const message = document.getElementById('inquiry-message').value.trim();
-            const selectedProduct = productSelect ? productSelect.value : '';
-            
-            let isValid = true;
-            
-            // Basic validation checks
-            if (name === '') {
-                showError('inquiry-name', 'Name is required');
-                isValid = false;
-            } else {
-                hideError('inquiry-name');
+            // Render sizes
+            detailSizes.innerHTML = '';
+            data.sizes.forEach((size, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `size-btn ${idx === 1 ? 'active' : ''}`;
+                btn.textContent = size;
+                btn.addEventListener('click', () => {
+                    detailSizes.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                });
+                detailSizes.appendChild(btn);
+            });
+
+            // Render specs table
+            detailSpecs.innerHTML = '';
+            for (const [key, val] of Object.entries(data.specs)) {
+                const row = document.createElement('div');
+                row.className = 'specs-row';
+                row.innerHTML = `<span class="specs-label">${key}</span><span class="specs-value">${val}</span>`;
+                detailSpecs.appendChild(row);
             }
-            
-            if (phone === '' || !/^\+?[0-9\s-]{10,15}$/.test(phone)) {
-                showError('inquiry-phone', 'Please enter a valid phone number');
-                isValid = false;
-            } else {
-                hideError('inquiry-phone');
-            }
-            
-            if (email !== '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                showError('inquiry-email', 'Please enter a valid email address');
-                isValid = false;
-            } else {
-                hideError('inquiry-email');
-            }
-            
-            if (isValid) {
-                // Construct pre-filled WhatsApp message
-                const waNumber = '919772942774';
-                const greeting = 'Hello Vihana Enterprises, I would like to inquire about FLOYD supports.';
-                const details = `*Name:* ${name}\n*Phone:* ${phone}\n*Email:* ${email || 'N/A'}\n*Product:* ${selectedProduct}\n*Message:* ${message}`;
-                const text = `${greeting}\n\n${details}`;
-                
-                const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(text)}`;
-                
-                // Open WhatsApp in new tab
-                window.open(waUrl, '_blank');
-                
-                // Show local form success animation/state
-                inquiryForm.innerHTML = `
-                    <div style="text-align: center; padding: 40px 0;">
-                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 20px;">
-                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                        </svg>
-                        <h3 style="font-size: 20px; margin-bottom: 12px; color: var(--primary-color);">Inquiry Submitted!</h3>
-                        <p style="color: var(--text-muted); font-size: 15px; margin-bottom: 24px;">
-                            We have generated your inquiry. If the WhatsApp window did not open automatically, click the button below to send it directly.
-                        </p>
-                        <a href="${waUrl}" target="_blank" class="btn btn-primary" style="background-color: #25D366; box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);">
-                            Send via WhatsApp
-                        </a>
-                    </div>
+
+            // Render FAQs
+            detailFaqs.innerHTML = '';
+            data.faqs.forEach(faq => {
+                const item = document.createElement('div');
+                item.className = 'faq-item';
+                item.innerHTML = `
+                    <div class="faq-question">${faq.q}</div>
+                    <div class="faq-answer">${faq.a}</div>
                 `;
+                item.querySelector('.faq-question').addEventListener('click', () => {
+                    item.classList.toggle('active');
+                });
+                detailFaqs.appendChild(item);
+            });
+
+            // Render reviews
+            detailReviewsList.innerHTML = '';
+            mockReviews.forEach(rev => {
+                const item = document.createElement('div');
+                item.className = 'review-item';
+                item.innerHTML = `
+                    <div class="review-header">
+                        <span class="review-user">${rev.user}</span>
+                        <span class="review-date">${rev.date}</span>
+                    </div>
+                    <div class="review-stars" style="color: #FBBF24; margin-bottom: 8px;">${'★'.repeat(rev.rating)}</div>
+                    <p class="review-body">${rev.text}</p>
+                `;
+                detailReviewsList.appendChild(item);
+            });
+
+            // Generate thumbnails with mock rotations to represent Front/Side/Back/In-Use angles
+            thumbGallery.innerHTML = '';
+            const transforms = [
+                "none",
+                "rotate(90deg)",
+                "scaleX(-1)",
+                "rotate(-90deg)",
+                "brightness(0.9) contrast(1.1)"
+            ];
+
+            for (let i = 0; i < 5; i++) {
+                const item = document.createElement('div');
+                item.className = `thumbnail-item ${i === 0 ? 'active' : ''}`;
                 
-                // Reset scroll lock if in modal
-                setTimeout(() => {
-                    if (modal && modal.classList.contains('active')) {
-                        // Keep open for a bit then allow scroll on exit
+                if (i === 4) {
+                    item.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:10px;font-weight:800;color:var(--accent-blue);background:#e6f0ff;text-align:center;padding:2px;">SIZE CHART</div>`;
+                } else {
+                    const img = document.createElement('img');
+                    img.src = data.mainImage;
+                    img.style.transform = transforms[i];
+                    item.appendChild(img);
+                }
+
+                item.addEventListener('click', () => {
+                    thumbGallery.querySelectorAll('.thumbnail-item').forEach(b => b.classList.remove('active'));
+                    item.classList.add('active');
+
+                    if (i === 4) {
+                        alert(`Size Chart Guide for ${data.name}:\n\nS: Fits joint circumference 12-14" (30-35 cm)\nM: Fits joint circumference 14-16" (35-40 cm)\nL: Fits joint circumference 16-18" (40-45 cm)\nXL: Fits joint circumference 18-20" (45-50 cm)\n\nMeasure circumference 5 inches (12 cm) above the center of the joint.`);
+                    } else {
+                        detailMainImg.src = data.mainImage;
+                        detailMainImg.style.transform = transforms[i];
                     }
-                }, 2000);
+                });
+
+                thumbGallery.appendChild(item);
             }
+            detailMainImg.style.transform = 'none';
+
+            // Connect CTA: Inquire Now (WhatsApp redirect)
+            detailInquireBtn.onclick = () => {
+                const activeSizeBtn = detailSizes.querySelector('.size-btn.active');
+                const selectedSize = activeSizeBtn ? activeSizeBtn.textContent : 'M';
+                const message = `Hello! I would like to inquire about purchasing the: *${data.name}* (Size: *${selectedSize}*).\n\nPlease provide availability and direct billing info.`;
+                const whatsappUrl = `https://wa.me/919772942774?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+            };
+
+
+            // Display overlay with transitions
+            detailOverlay.style.display = 'block';
+            setTimeout(() => {
+                detailOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }, 10);
+
+            // Update URL hash for deep-linking
+            if (updateHash) {
+                window.location.hash = `product-${productId}`;
+            }
+        };
+
+        const closeProductDetail = () => {
+            detailOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+            setTimeout(() => {
+                detailOverlay.style.display = 'none';
+            }, 350);
+            history.pushState("", document.title, window.location.pathname + window.location.search);
+        };
+
+        backBtn.addEventListener('click', closeProductDetail);
+
+        // Bind clicks to main product cards on catalog
+        const productCards = document.querySelectorAll('.product-card');
+        productCards.forEach(card => {
+            const productId = card.getAttribute('data-product-id');
+            if (!productId) return;
+
+            card.addEventListener('click', (e) => {
+                e.preventDefault();
+                showProductDetail(productId);
+            });
+            card.style.cursor = 'pointer';
+            card.setAttribute('title', 'Click to view premium product details');
         });
-    }
 
-    // 7. General Contact Form Logic (on contact.html)
-    const contactForm = document.getElementById('general-contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const name = document.getElementById('contact-name').value.trim();
-            const phone = document.getElementById('contact-phone').value.trim();
-            const email = document.getElementById('contact-email').value.trim();
-            const message = document.getElementById('contact-message').value.trim();
-            
-            let isValid = true;
-            
-            if (name === '') {
-                showError('contact-name', 'Name is required');
-                isValid = false;
-            } else {
-                hideError('contact-name');
+        // Check hash link on load/hashchange for direct deep linking
+        const checkHashLink = () => {
+            const hash = window.location.hash;
+            if (hash.startsWith('#product-')) {
+                const productId = hash.replace('#product-', '');
+                showProductDetail(productId, false);
             }
-            
-            if (phone === '' || !/^\+?[0-9\s-]{10,15}$/.test(phone)) {
-                showError('contact-phone', 'Please enter a valid phone number');
-                isValid = false;
-            } else {
-                hideError('contact-phone');
-            }
-            
-            if (email !== '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                showError('contact-email', 'Please enter a valid email address');
-                isValid = false;
-            } else {
-                hideError('contact-email');
-            }
-            
-            if (isValid) {
-                const waNumber = '919772942774';
-                const text = `Hello Vihana Enterprises, I am contacting you from the FLOYD website.\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Email:* ${email || 'N/A'}\n*Message:* ${message}`;
-                const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(text)}`;
-                
-                window.open(waUrl, '_blank');
-                
-                contactForm.innerHTML = `
-                    <div style="text-align: center; padding: 40px 0;">
-                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 20px;">
-                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                        </svg>
-                        <h3 style="font-size: 20px; margin-bottom: 12px; color: var(--primary-color);">Message Formatted!</h3>
-                        <p style="color: var(--text-muted); font-size: 15px; margin-bottom: 24px;">
-                            Your message details have been compiled. Click below to initiate WhatsApp chat with Vihana Enterprises.
-                        </p>
-                        <a href="${waUrl}" target="_blank" class="btn btn-primary" style="background-color: #25D366; box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);">
-                            Start WhatsApp Chat
-                        </a>
-                    </div>
-                `;
-            }
-        });
-    }
+        };
 
-    // Helper functions for displaying inline validation errors
-    function showError(fieldId, errorMsg) {
-        const field = document.getElementById(fieldId);
-        if (field) {
-            field.style.borderColor = 'var(--danger-color)';
-            // Find sibling error message div
-            const errorDiv = field.parentElement.querySelector('.form-error');
-            if (errorDiv) {
-                errorDiv.textContent = errorMsg;
-                errorDiv.style.display = 'block';
-            }
-        }
-    }
-
-    function hideError(fieldId) {
-        const field = document.getElementById(fieldId);
-        if (field) {
-            field.style.borderColor = 'var(--border-color)';
-            const errorDiv = field.parentElement.querySelector('.form-error');
-            if (errorDiv) {
-                errorDiv.style.display = 'none';
-            }
-        }
+        window.addEventListener('load', checkHashLink);
+        window.addEventListener('hashchange', checkHashLink);
     }
 });
