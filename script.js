@@ -162,7 +162,14 @@ document.addEventListener('DOMContentLoaded', () => {
             category: "Knee Support",
             rating: 4.8,
             reviewsCount: 230,
-            mainImage: "assets/knee_support.png",
+            mainImage: "assets/data/FLOYD 2D Knitted Knee Cap/1.png",
+            galleryImages: [
+                "assets/data/FLOYD 2D Knitted Knee Cap/1.png",
+                "assets/data/FLOYD 2D Knitted Knee Cap/2.png",
+                "assets/data/FLOYD 2D Knitted Knee Cap/3.png",
+                "assets/data/FLOYD 2D Knitted Knee Cap/4.png",
+                "assets/data/FLOYD 2D Knitted Knee Cap/5.png"
+            ],
             description: "FLOYD 2D Knitted Knee Cap is designed to provide superior knee compression, support, and comfort during daily activities, sports, and post-injury recovery. Its breathable knitted structure ensures long-lasting comfort.",
             features: [
                 "Breathable knitted fabric for all-day comfort",
@@ -192,6 +199,9 @@ document.addEventListener('DOMContentLoaded', () => {
             rating: 4.9,
             reviewsCount: 312,
             mainImage: "assets/back_support_ls.png",
+            galleryImages: [
+                "assets/back_support_ls.png"
+            ],
             description: "FLOYD Lumbar Sacral (LS) Belt is clinically engineered to support the lower spine, relieve acute back pain, and correct posture. Equipped with semi-rigid metal splints for optimal reinforcement.",
             features: [
                 "Semi-rigid back splints for sturdy spine support",
@@ -219,7 +229,14 @@ document.addEventListener('DOMContentLoaded', () => {
             category: "Abdominal Support",
             rating: 4.7,
             reviewsCount: 185,
-            mainImage: "assets/abdominal_support.png",
+            mainImage: "assets/data/FLOYD Abdominal Support Belt/1.png",
+            galleryImages: [
+                "assets/data/FLOYD Abdominal Support Belt/1.png",
+                "assets/data/FLOYD Abdominal Support Belt/2.png",
+                "assets/data/FLOYD Abdominal Support Belt/3.png",
+                "assets/data/FLOYD Abdominal Support Belt/4.png",
+                "assets/data/FLOYD Abdominal Support Belt/5.png"
+            ],
             description: "FLOYD Abdominal Support Belt provides compression to the abdomen and waist, aiding post-operative recovery, supporting incisions, and restoring abdominal wall tone.",
             features: [
                 "Broad width design covers the entire abdominal region",
@@ -247,7 +264,15 @@ document.addEventListener('DOMContentLoaded', () => {
             category: "Back Support",
             rating: 4.8,
             reviewsCount: 198,
-            mainImage: "assets/contour_lumbar.png",
+            mainImage: "assets/data/FLOYD Contour Lumbar Belt/1.png",
+            galleryImages: [
+                "assets/data/FLOYD Contour Lumbar Belt/1.png",
+                "assets/data/FLOYD Contour Lumbar Belt/2.png",
+                "assets/data/FLOYD Contour Lumbar Belt/3.png",
+                "assets/data/FLOYD Contour Lumbar Belt/4.png",
+                "assets/data/FLOYD Contour Lumbar Belt/5.png",
+                "assets/data/FLOYD Contour Lumbar Belt/6.png"
+            ],
             description: "FLOYD Contour Lumbar Belt is an advanced orthopedic brace designed with a dynamic contour shape to provide targeted comfort and structural compression to the lower back and lumbar vertebrae.",
             features: [
                 "Contoured frame matches the natural curve of the spine",
@@ -370,43 +395,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 detailReviewsList.appendChild(item);
             });
 
-            // Generate thumbnails with mock rotations to represent Front/Side/Back/In-Use angles
+            // Generate thumbnails from actual product gallery images
             thumbGallery.innerHTML = '';
-            const transforms = [
-                "none",
-                "rotate(90deg)",
-                "scaleX(-1)",
-                "rotate(-90deg)",
-                "brightness(0.9) contrast(1.1)"
-            ];
+            const galleryImages = data.galleryImages || [data.mainImage];
 
-            for (let i = 0; i < 5; i++) {
+            galleryImages.forEach((imgSrc, i) => {
                 const item = document.createElement('div');
                 item.className = `thumbnail-item ${i === 0 ? 'active' : ''}`;
                 
-                if (i === 4) {
-                    item.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:10px;font-weight:800;color:var(--accent-blue);background:#e6f0ff;text-align:center;padding:2px;">SIZE CHART</div>`;
-                } else {
-                    const img = document.createElement('img');
-                    img.src = data.mainImage;
-                    img.style.transform = transforms[i];
-                    item.appendChild(img);
-                }
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                item.appendChild(img);
 
                 item.addEventListener('click', () => {
                     thumbGallery.querySelectorAll('.thumbnail-item').forEach(b => b.classList.remove('active'));
                     item.classList.add('active');
-
-                    if (i === 4) {
-                        alert(`Size Chart Guide for ${data.name}:\n\nS: Fits joint circumference 12-14" (30-35 cm)\nM: Fits joint circumference 14-16" (35-40 cm)\nL: Fits joint circumference 16-18" (40-45 cm)\nXL: Fits joint circumference 18-20" (45-50 cm)\n\nMeasure circumference 5 inches (12 cm) above the center of the joint.`);
-                    } else {
-                        detailMainImg.src = data.mainImage;
-                        detailMainImg.style.transform = transforms[i];
-                    }
+                    detailMainImg.src = imgSrc;
+                    detailMainImg.style.transform = 'none';
                 });
 
                 thumbGallery.appendChild(item);
-            }
+            });
+
+            // Add size chart as last thumbnail
+            const sizeChartItem = document.createElement('div');
+            sizeChartItem.className = 'thumbnail-item';
+            sizeChartItem.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:10px;font-weight:800;color:var(--accent-blue);background:#e6f0ff;text-align:center;padding:2px;">SIZE CHART</div>`;
+            sizeChartItem.addEventListener('click', () => {
+                alert(`Size Chart Guide for ${data.name}:\n\nS: Fits joint circumference 12-14" (30-35 cm)\nM: Fits joint circumference 14-16" (35-40 cm)\nL: Fits joint circumference 16-18" (40-45 cm)\nXL: Fits joint circumference 18-20" (45-50 cm)\n\nMeasure circumference 5 inches (12 cm) above the center of the joint.`);
+            });
+            thumbGallery.appendChild(sizeChartItem);
+
             detailMainImg.style.transform = 'none';
 
             // Connect CTA: Inquire Now (WhatsApp redirect)
