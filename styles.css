@@ -1576,6 +1576,7 @@ textarea.form-input {
     background-color: var(--bg-main);
     z-index: 3000;
     overflow-y: auto;
+    overflow-x: hidden; /* Prevent horizontal scroll */
     display: none;
     opacity: 0;
     transform: translateY(30px);
@@ -1628,11 +1629,13 @@ textarea.form-input {
 .detail-logo img {
     height: 40px;
     width: auto;
+    transition: var(--transition-smooth);
 }
 
-/* Body container styling */
+/* Body container styling - preserve left/right container padding */
 .detail-content-body {
-    padding: 40px 0 80px 0;
+    padding-top: 40px;
+    padding-bottom: 80px;
 }
 
 /* Main Grid: Left Section (45%) and Right Section (55%) */
@@ -1646,12 +1649,15 @@ textarea.form-input {
     padding: 40px;
     box-shadow: var(--shadow-md);
     margin-bottom: 40px;
+    width: 100%;
+    min-width: 0;
 }
 
 /* Left Section: Thumbnail gallery + Main Image */
 .detail-left-section {
     display: flex;
     gap: 20px;
+    min-width: 0;
 }
 
 .thumbnail-gallery {
@@ -1659,6 +1665,7 @@ textarea.form-input {
     flex-direction: column;
     gap: 12px;
     flex-shrink: 0;
+    min-width: 0;
 }
 
 .thumbnail-item {
@@ -1670,6 +1677,7 @@ textarea.form-input {
     cursor: pointer;
     transition: var(--transition-smooth);
     background-color: var(--bg-main);
+    flex-shrink: 0; /* Prevent thumbnail distortion when horizontal */
 }
 
 .thumbnail-item img {
@@ -1696,6 +1704,7 @@ textarea.form-input {
     align-items: center;
     position: relative;
     padding: 20px;
+    min-width: 0;
 }
 
 .main-image-container img {
@@ -1713,6 +1722,7 @@ textarea.form-input {
 .detail-right-section {
     display: flex;
     flex-direction: column;
+    min-width: 0;
 }
 
 .detail-meta-category {
@@ -2064,16 +2074,61 @@ textarea.form-input {
     
     .detail-left-section {
         flex-direction: column-reverse;
+        min-width: 0;
     }
     
     .thumbnail-gallery {
         flex-direction: row;
         overflow-x: auto;
         padding-bottom: 8px;
+        width: 100%;
+        min-width: 0;
     }
     
     .specs-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .detail-content-body {
+        padding-top: 20px;
+        padding-bottom: 40px;
+    }
+    
+    .detail-main-grid {
+        padding: 20px 16px;
+        gap: 24px;
+        border-radius: var(--border-radius-md);
+        margin-bottom: 24px;
+    }
+    
+    .detail-logo img {
+        height: 32px;
+    }
+    
+    .back-btn {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+    
+    .detail-product-title {
+        font-size: 24px;
+    }
+    
+    .main-image-container img {
+        max-height: 300px;
+    }
+    
+    .detail-bottom-section {
+        gap: 24px;
+    }
+    
+    .detail-desc-box,
+    .detail-specs-box,
+    .detail-faq-box,
+    .detail-reviews-box {
+        padding: 24px 16px;
     }
 }
 
